@@ -1,3 +1,11 @@
-.idea
-.vscode
-*/__pycache__/*
+# Ignore __pycache__ directories
+**/__pycache__/
+
+# Ignore Python compiled files
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore IDE specific files
+.idea/
+.vscode/
