@@ -1,5 +1,8 @@
+import json
 from django.views import View
 from django.shortcuts import render, redirect
+
+from app_core.models import Province, City
 
 class HomeView(View):
     def get(self, request):

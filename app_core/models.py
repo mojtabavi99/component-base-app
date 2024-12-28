@@ -1,54 +1,60 @@
 from django.db import models
-from django.utils.text import slugify
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator, FileExtensionValidator 
 
 
-class Page(models.Model):
-    name_fa = models.CharField(max_length=255, unique=True, verbose_name='')
-    name_en = models.CharField(max_length=255, blank=True, null=True, unique=True, verbose_name='')
-    slug = models.SlugField(blank=True, max_length=255, allow_unicode=True, unique=True, 
-                            verbose_name='')
-    is_active = models.BooleanField(default=False, verbose_name='')
-    in_navbar = models.BooleanField(default=False, verbose_name='')
-    in_footer = models.BooleanField(default=False, verbose_name='')
+# class Page(models.Model):
+#     name = models.CharField(max_length=255, unique=True, verbose_name='نام صفحه')
+#     url = models.CharField(max_length=255, blank=True, null=True, unique=True, verbose_name='url')
+#     active = models.BooleanField(default=False, verbose_name='فعال / غیرفعال')
+#     use_in_navbar = models.BooleanField(default=False, verbose_name='استفاده در منو')
+#     use_in_footer = models.BooleanField(default=False, verbose_name='استفاده در فوتر')
     
-    class Meta:
-        verbose_name = ''
-        verbose_name_plural = ''
-    
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name_en)
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return self.name_fa
-    
-
-# class Config(models.Model):
-#     title = models.CharField(max_length=255, verbose_name='عنوان سایت')
-#     name = models.CharField(max_length=255, verbose_name='نام سایت')
-#     description = models.CharField(max_length=255, verbose_name='نوضیحات سایت')
-#     slogan = models.CharField(max_length=255, verbose_name='شعار سایت')
-#     logo = models.ImageField(upload_to='images/core/config/', verbose_name='لوگو')
-#     email = models.EmailField(max_length=255, blank=True, null=True, verbose_name='ایمیل')
-#     phone = models.CharField(max_length=255, blank=True, null=True, verbose_name='تلفن')
-#     mobile = models.CharField(max_length=255, blank=True, null=True, verbose_name='موبایل')
-#     address = models.CharField(max_length=255, blank=True, null=True, verbose_name='آدرس')
-#     instagram = models.CharField(max_length=255, blank=True, null=True, verbose_name='اینستاگرام')
-#     facebook = models.CharField(max_length=255, blank=True, null=True, verbose_name='فیسبوک')
-#     telegram = models.CharField(max_length=255, blank=True, null=True, verbose_name='تلگرام')
-#     twitter = models.CharField(max_length=255, blank=True, null=True, verbose_name='توییتر')
-#     whatsapp = models.CharField(max_length=255, blank=True, null=True, verbose_name='واتساپ')
-#     linkedin = models.CharField(max_length=255, blank=True, null=True, verbose_name='لینکدین')
-#     youtube = models.CharField(max_length=255, blank=True, null=True, verbose_name='یوتیوب')
-#     aparat = models.CharField(max_length=255, blank=True, null=True, verbose_name='آپارات')
-
 #     class Meta:
-#         verbose_name = 'تنظیمات'
-#         verbose_name_plural = 'تنظیمات'
+#         verbose_name = 'صفحه فرود'
+#         verbose_name_plural = 'صفحات فرود'
 
 #     def __str__(self):
 #         return self.name
+    
+
+# class PageComponent(models.Model):
+#     page = models.ForeignKey(Page, on_delete=models.CASCADE, verbose_name="شناسه صفحه")
+#     name = models.CharField()
+#     order = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(30)], verbose_name='ترتیب نمایش')
+#     type = models.CharField()
+#     style = models.CharField()
+
+#     def __str__(self):
+#         return self.name
+
+    
+class Config(models.Model):
+    title = models.CharField(max_length=255, blank=True, null=True, verbose_name='عنوان سایت')
+    name = models.CharField(max_length=255, blank=True, null=True, verbose_name='نام سایت')
+    description = models.CharField(max_length=255, blank=True, null=True, verbose_name='نوضیحات سایت')
+    slogan = models.CharField(max_length=255, blank=True, null=True, verbose_name='شعار سایت')
+    email = models.EmailField(max_length=255, blank=True, null=True, verbose_name='ایمیل')
+    phone = models.CharField(max_length=255, blank=True, null=True, verbose_name='تلفن')
+    mobile = models.CharField(max_length=255, blank=True, null=True, verbose_name='موبایل')
+    address = models.CharField(max_length=255, blank=True, null=True, verbose_name='آدرس')
+    instagram = models.CharField(max_length=255, blank=True, null=True, verbose_name='اینستاگرام')
+    facebook = models.CharField(max_length=255, blank=True, null=True, verbose_name='فیسبوک')
+    telegram = models.CharField(max_length=255, blank=True, null=True, verbose_name='تلگرام')
+    twitter = models.CharField(max_length=255, blank=True, null=True, verbose_name='توییتر')
+    whatsapp = models.CharField(max_length=255, blank=True, null=True, verbose_name='واتساپ')
+    linkedin = models.CharField(max_length=255, blank=True, null=True, verbose_name='لینکدین')
+    youtube = models.CharField(max_length=255, blank=True, null=True, verbose_name='یوتیوب')
+    aparat = models.CharField(max_length=255, blank=True, null=True, verbose_name='آپارات')
+    logo = models.ImageField(blank=True, null=True, verbose_name='لوگو',
+                             upload_to='images/core/config/', default='images/core/config/default.png', 
+                             validators=[FileExtensionValidator(['png'])])
+
+    class Meta:
+        verbose_name = 'تنظیمات'
+        verbose_name_plural = 'تنظیمات'
+
+    def __str__(self):
+        return self.name
     
 
 # class Meta(models.Model):
@@ -70,35 +76,36 @@ class Page(models.Model):
 #         return self.keyword
 
 
-# class Province(models.Model):
-#     name = models.CharField(max_length=255, verbose_name='نام استان')
-#     country = models.CharField(max_length=255, default='ایران', verbose_name='کشور')
-#     countrycode = models.IntegerField(default=98, verbose_name='کد کشور')
-#     latitude = models.DecimalField(max_digits=11, decimal_places=8, blank=True, null=True, verbose_name='latitude')
-#     longitude = models.DecimalField(max_digits=11, decimal_places=8, blank=True, null=True, verbose_name='longitude')
-#     image = models.ImageField(upload_to='images/core/province/', default='images/core/province/default.png', 
-#                                blank=True, null=True, verbose_name='تصویر')
+class Province(models.Model):
+    name = models.CharField(max_length=255, verbose_name='نام استان')
+    country = models.CharField(max_length=255, default='ایران', verbose_name='کشور')
+    countrycode = models.IntegerField(default=98, verbose_name='کد کشور')
+    latitude = models.DecimalField(max_digits=11, decimal_places=8, blank=True, null=True, verbose_name='latitude')
+    longitude = models.DecimalField(max_digits=11, decimal_places=8, blank=True, null=True, verbose_name='longitude')
+    image = models.ImageField(upload_to='images/core/province/', default='images/core/province/default.png', 
+                              validators=[FileExtensionValidator(['png, jpg, jpeg, webp'])],
+                              blank=True, null=True, verbose_name='تصویر')
 
-#     class Meta:
-#         verbose_name = 'استان'
-#         verbose_name_plural = 'استان‌ها'
+    class Meta:
+        verbose_name = 'استان'
+        verbose_name_plural = 'استان‌ها'
 
-#     def __str__(self):
-#         return f"{self.name}"
+    def __str__(self):
+        return f"{self.name}"
 
 
-# class City(models.Model):
-#     province = models.ForeignKey(Province, on_delete=models.CASCADE, verbose_name='شناسه استان')
-#     name = models.CharField(max_length=255, verbose_name='نام شهر')
-#     latitude = models.DecimalField(max_digits=11, decimal_places=8, blank=True, null=True, verbose_name='latitude')
-#     longitude = models.DecimalField(max_digits=11, decimal_places=8, blank=True, null=True, verbose_name='longitude')
+class City(models.Model):
+    province = models.ForeignKey(Province, on_delete=models.CASCADE, verbose_name='شناسه استان')
+    name = models.CharField(max_length=255, verbose_name='نام شهر')
+    latitude = models.DecimalField(max_digits=11, decimal_places=8, blank=True, null=True, verbose_name='latitude')
+    longitude = models.DecimalField(max_digits=11, decimal_places=8, blank=True, null=True, verbose_name='longitude')
 
-#     class Meta:
-#         verbose_name = 'شهر'
-#         verbose_name_plural = 'شهرها'
+    class Meta:
+        verbose_name = 'شهر'
+        verbose_name_plural = 'شهرها'
 
-#     def __str__(self):
-#         return self.name
+    def __str__(self):
+        return self.name
     
 
 # class Billboard(models.Model):
