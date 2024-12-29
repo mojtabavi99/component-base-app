@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     'app_blog.apps.AppBlogConfig',
     'app_core.apps.AppCoreConfig',
+    'app_shop.apps.AppShopConfig',
     'app_user.apps.AppUserConfig',
 ]
 
