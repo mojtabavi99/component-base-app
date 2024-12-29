@@ -38,6 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'jalali_date',
+    'sorl.thumbnail',
+    'django_render_partial',
+
     'app_core.apps.AppCoreConfig',
     'app_user.apps.AppUserConfig',
 ]
