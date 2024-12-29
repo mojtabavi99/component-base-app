@@ -1,33 +1,8 @@
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator, FileExtensionValidator 
+from django.utils.text import slugify
+from django.core.validators import FileExtensionValidator, MinValueValidator, MaxValueValidator
 
 
-# class Page(models.Model):
-#     name = models.CharField(max_length=255, unique=True, verbose_name='نام صفحه')
-#     url = models.CharField(max_length=255, blank=True, null=True, unique=True, verbose_name='url')
-#     active = models.BooleanField(default=False, verbose_name='فعال / غیرفعال')
-#     use_in_navbar = models.BooleanField(default=False, verbose_name='استفاده در منو')
-#     use_in_footer = models.BooleanField(default=False, verbose_name='استفاده در فوتر')
-    
-#     class Meta:
-#         verbose_name = 'صفحه فرود'
-#         verbose_name_plural = 'صفحات فرود'
-
-#     def __str__(self):
-#         return self.name
-    
-
-# class PageComponent(models.Model):
-#     page = models.ForeignKey(Page, on_delete=models.CASCADE, verbose_name="شناسه صفحه")
-#     name = models.CharField()
-#     order = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(30)], verbose_name='ترتیب نمایش')
-#     type = models.CharField()
-#     style = models.CharField()
-
-#     def __str__(self):
-#         return self.name
-
-    
 class Config(models.Model):
     title = models.CharField(max_length=255, blank=True, null=True, verbose_name='عنوان سایت')
     name = models.CharField(max_length=255, blank=True, null=True, verbose_name='نام سایت')
@@ -57,29 +32,11 @@ class Config(models.Model):
         return self.name
     
 
-# class Meta(models.Model):
-#     META_TYPE = (
-#         ('rel', 'rel'),
-#         ('name', 'name'),
-#         ('property', 'property')
-#     )
-
-#     type = models.CharField(max_length=255, choices=META_TYPE, verbose_name='نوع تگ')
-#     keyword = models.CharField(max_length=255, verbose_name='کلیدواژه')
-#     content = models.CharField(max_length=255, verbose_name='محتوا')
-
-#     class Meta:
-#         verbose_name = 'متا تگ'
-#         verbose_name_plural = 'متا تگ‌ها'
-
-#     def __str__(self):
-#         return self.keyword
-
-
 class Province(models.Model):
     name = models.CharField(max_length=255, verbose_name='نام استان')
     country = models.CharField(max_length=255, default='ایران', verbose_name='کشور')
     countrycode = models.IntegerField(default=98, verbose_name='کد کشور')
+    slug = models.SlugField(max_length=255, blank=True, allow_unicode=True, db_index=True, unique=True, verbose_name='slug')
     latitude = models.DecimalField(max_digits=11, decimal_places=8, blank=True, null=True, verbose_name='latitude')
     longitude = models.DecimalField(max_digits=11, decimal_places=8, blank=True, null=True, verbose_name='longitude')
     image = models.ImageField(upload_to='images/core/province/', default='images/core/province/default.png', 
@@ -89,6 +46,10 @@ class Province(models.Model):
     class Meta:
         verbose_name = 'استان'
         verbose_name_plural = 'استان‌ها'
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name, allow_unicode=True)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.name}"
@@ -106,6 +67,51 @@ class City(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+# class Page(models.Model):
+#     name = models.CharField(max_length=255, unique=True, verbose_name='نام صفحه')
+#     url = models.CharField(max_length=255, blank=True, null=True, unique=True, verbose_name='url')
+#     active = models.BooleanField(default=False, verbose_name='فعال / غیرفعال')
+#     use_in_navbar = models.BooleanField(default=False, verbose_name='استفاده در منو')
+#     use_in_footer = models.BooleanField(default=False, verbose_name='استفاده در فوتر')
+    
+#     class Meta:
+#         verbose_name = 'صفحه فرود'
+#         verbose_name_plural = 'صفحات فرود'
+
+#     def __str__(self):
+#         return self.name
+    
+
+# class PageComponent(models.Model):
+#     page = models.ForeignKey(Page, on_delete=models.CASCADE, verbose_name="شناسه صفحه")
+#     name = models.CharField()
+#     order = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(30)], verbose_name='ترتیب نمایش')
+#     type = models.CharField()
+#     style = models.CharField()
+
+#     def __str__(self):
+#         return self.name
+
+
+# class Meta(models.Model):
+#     META_TYPE = (
+#         ('rel', 'rel'),
+#         ('name', 'name'),
+#         ('property', 'property')
+#     )
+
+#     type = models.CharField(max_length=255, choices=META_TYPE, verbose_name='نوع تگ')
+#     keyword = models.CharField(max_length=255, verbose_name='کلیدواژه')
+#     content = models.CharField(max_length=255, verbose_name='محتوا')
+
+#     class Meta:
+#         verbose_name = 'متا تگ'
+#         verbose_name_plural = 'متا تگ‌ها'
+
+#     def __str__(self):
+#         return self.keyword
     
 
 # class Billboard(models.Model):
