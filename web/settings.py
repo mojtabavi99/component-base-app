@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'django_render_partial',
 
+    'app_blog.apps.AppBlogConfig',
     'app_core.apps.AppCoreConfig',
     'app_user.apps.AppUserConfig',
 ]
