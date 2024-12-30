@@ -2,6 +2,8 @@ from django.db import models
 from django.utils.text import slugify
 from django.core.validators import FileExtensionValidator
 
+from app_user.models import User
+
 class ArticleCategory(models.Model):
     parent = models.ForeignKey('ArticleCategory', on_delete=models.CASCADE, 
                                blank=True, null=True, verbose_name='شناسه والد')
@@ -81,4 +83,26 @@ class Article(models.Model):
         return self.title
     
 
+class ArticleReview(models.Model):
+    STATUS_PENDING = 'pending'
+    STATUS_APPROVED = 'approved'
+    STATUS_REJECTED = 'rejected'
+    STATUS_CHOICES = (
+        (STATUS_PENDING, 'در حال بررسی'),
+        (STATUS_REJECTED, 'رد شده'),
+        (STATUS_APPROVED, 'تایید شده'),
+    )
 
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="شناسه کاربر")
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, verbose_name="شناسه مقاله")
+    content = models.TextField(verbose_name="متن")
+    reply = models.TextField(blank=True, null=True, verbose_name="پاسخ")
+    created = models.DateTimeField(auto_now_add=True, verbose_name="زمان ثبت")
+    status = models.CharField(max_length=225, choices=STATUS_CHOICES, default=STATUS_PENDING, verbose_name="وضعیت")
+
+    class Meta:
+        verbose_name = 'نظر'
+        verbose_name_plural = 'نظرات'
+
+    def __str__(self):
+        return f'{self.user.first_name} {self.user.last_name} | {self.article.title}'
