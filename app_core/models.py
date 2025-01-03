@@ -3,6 +3,32 @@ from django.utils.text import slugify
 from django.core.validators import FileExtensionValidator
 
 
+class Page(models.Model):
+    MODEL_MAIN = 'main'
+    MODEL_LANDING = 'landing'
+    MODEL_ARTICLE = 'article'
+    MODEL_PRODUCT = 'product'
+    MODEL_CHOICES = (
+        (MODEL_MAIN, 'اصلی'),
+        (MODEL_LANDING, 'لندینگ'),
+        (MODEL_ARTICLE, 'مقالات'),
+        (MODEL_PRODUCT, 'محصولات'),
+    )
+
+    name = models.CharField(max_length=255, unique=True, verbose_name='نام صفحه')
+    model = models.CharField(max_length=255, choices=MODEL_CHOICES, verbose_name='مدل')
+    parent = models.IntegerField(default=0, verbose_name='شناسه والد')
+    url = models.CharField(max_length=255, blank=True, null=True, unique=True, verbose_name='url')
+    active = models.BooleanField(default=False, verbose_name='فعال / غیرفعال')
+    
+    class Meta:
+        verbose_name = 'صفحه فرود'
+        verbose_name_plural = 'صفحات فرود'
+
+    def __str__(self):
+        return self.name
+
+
 class Config(models.Model):
     title = models.CharField(max_length=255, blank=True, null=True, verbose_name='عنوان سایت')
     name = models.CharField(max_length=255, blank=True, null=True, verbose_name='نام سایت')
@@ -67,21 +93,6 @@ class City(models.Model):
 
     def __str__(self):
         return self.name
-    
-
-# class Page(models.Model):
-#     name = models.CharField(max_length=255, unique=True, verbose_name='نام صفحه')
-#     url = models.CharField(max_length=255, blank=True, null=True, unique=True, verbose_name='url')
-#     active = models.BooleanField(default=False, verbose_name='فعال / غیرفعال')
-#     use_in_navbar = models.BooleanField(default=False, verbose_name='استفاده در منو')
-#     use_in_footer = models.BooleanField(default=False, verbose_name='استفاده در فوتر')
-    
-#     class Meta:
-#         verbose_name = 'صفحه فرود'
-#         verbose_name_plural = 'صفحات فرود'
-
-#     def __str__(self):
-#         return self.name
     
 
 # class PageComponent(models.Model):
