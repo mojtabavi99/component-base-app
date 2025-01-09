@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class AppPluginConfig(AppConfig):
+class PluginBillboardConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'app_plugin'
+    name = 'plugin_billboard'
