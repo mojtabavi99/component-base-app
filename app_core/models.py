@@ -68,6 +68,7 @@ class Province(models.Model):
     image = models.ImageField(upload_to='images/core/province/', default='images/core/province/default.png', 
                               validators=[FileExtensionValidator(['png, jpg, jpeg, webp'])],
                               blank=True, null=True, verbose_name='تصویر')
+    alt = models.CharField(max_length=255, blank=True, null=True, verbose_name='متن جایگزین عکس')
 
     class Meta:
         verbose_name = 'استان'
