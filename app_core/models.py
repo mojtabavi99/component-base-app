@@ -14,9 +14,16 @@ class Page(models.Model):
         (MODEL_ARTICLE, 'مقالات'),
         (MODEL_PRODUCT, 'محصولات'),
     )
+    GENERATED_AUTO = 'auto'
+    GENERATED_MANUAL = 'manual'
+    GENERATED_CHOICES = (
+        (GENERATED_AUTO, 'خودکار'),
+        (GENERATED_MANUAL, 'دستی'),
+    )
 
     name = models.CharField(max_length=255, unique=True, verbose_name='نام صفحه')
     model = models.CharField(max_length=255, choices=MODEL_CHOICES, verbose_name='مدل')
+    generated = models.CharField(max_length=255, choices=GENERATED_CHOICES, verbose_name='روش تولید')
     parent = models.IntegerField(default=0, verbose_name='شناسه والد')
     url = models.CharField(max_length=255, blank=True, null=True, unique=True, verbose_name='url')
     active = models.BooleanField(default=False, verbose_name='فعال / غیرفعال')

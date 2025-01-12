@@ -1,5 +1,4 @@
 from django.db import models
-from django.core.validators import FileExtensionValidator
 
 from app_core.models import Page
 
@@ -43,7 +42,7 @@ class Catalog(models.Model):
 
 
 class CatalogItem(models.Model):
-    set = models.ForeignKey(Catalog, on_delete=models.CASCADE, verbose_name='شناسه مجموعه')
+    catalog = models.ForeignKey(Catalog, on_delete=models.CASCADE, verbose_name='شناسه مجموعه')
     item = models.IntegerField(verbose_name='شناسه آیتم')
 
     class Meta:
@@ -51,4 +50,4 @@ class CatalogItem(models.Model):
         verbose_name_plural = 'لیست اجزا کاتالوگ'
 
     def __str__(self):
-        return f'{self.set.name} - {self.item}'
+        return f'{self.catalog.name} - {self.item}'

@@ -44,9 +44,11 @@ INSTALLED_APPS = [
 
     'app_blog.apps.AppBlogConfig',
     'app_core.apps.AppCoreConfig',
-    'app_plugin.apps.AppPluginConfig',
     'app_shop.apps.AppShopConfig',
     'app_user.apps.AppUserConfig',
+
+    'plugin_billboard.apps.PluginBillboardConfig',
+    'plugin_catalog.apps.PluginCatalogConfig',
 ]
 
 MIDDLEWARE = [
