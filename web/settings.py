@@ -49,6 +49,10 @@ INSTALLED_APPS = [
 
     'plugin_billboard.apps.PluginBillboardConfig',
     'plugin_catalog.apps.PluginCatalogConfig',
+    
+    # 'plugin_menu.apps.PluginMenu',
+    # 'plugin_meta_tag.apps.PluginMetaTagConfig',
+    # 'plugin_statistic.apps.PluginStatisticConfig',
 ]
 
 MIDDLEWARE = [
