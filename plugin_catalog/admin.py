@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from plugin_catalog import models
+
+admin.site.register(models.Catalog)
+admin.site.register(models.CatalogItem)

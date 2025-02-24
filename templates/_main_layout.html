@@ -10,11 +10,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}{% endblock %}</title>
 
-    <link href="{% static 'bootstrap/css/bootstrap.rtl.min.css' %}" rel="stylesheet">
-    <link href="{% static 'boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.rtl.min.css' %}" rel="stylesheet">
 
-    <link href="{% static 'css/main/root.css' %}" rel="stylesheet">
-    <link href="{% static 'css/main/header.css' %}" rel="stylesheet">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'css/header.css' %}" rel="stylesheet">
 
     {% block header_reference %}{% endblock %}
     {% block meta_tags %}{% endblock %}
@@ -30,10 +29,10 @@
 
     {% render_partial 'app_core.views.site_view.mainFooterComponent' %}
 
-    <script src="{% static 'js/main/jquery.js' %}"></script>
-    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
-    <script src="{% static 'js/main/header.js' %}"></script>
+    <script src="{% static 'js/header.js' %}"></script>
 
     {% block footer_reference %}{% endblock %}
 

@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from plugin_billboard import models
+
+admin.site.register(models.Billboard)
+admin.site.register(models.BillboardItem)
